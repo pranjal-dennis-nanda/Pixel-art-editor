@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pixel Art Maker </title>
+</head>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    html,body{
+        height: 100%;
+    }
+    body{
+        background-color:#fff ;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+    .options{
+        padding: 20px;
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .button,input{
+        height: 30px;
+        padding: 0 20px;
+    }
+    .color{
+        padding:0 20px;
+        width: 100px;
+        margin: 0 40px;
+    }
+    .container{
+        --size:4;
+        background-color: #000;
+        width: 1000px;
+        height: 1000px;
+        display: grid;
+        grid-template-columns: repeat(var(--size),1fr);
+        grid-template-rows: repeat(var(--size),1fr);
+        gap: 3px;
+        padding: 3px;
+        
+    }
+    .box{
+      background-color:#393939 ;
+        border-radius: 2px;
+    }
+</style>
+<body>
+    <div class="options">
+        <button class="button">Reset</button>
+        <input type="color" value="ffa500" class="color">
+        <input type="number" value="20" class="size">
+    </div>
+    <div class="container">
+
+    </div>
+<script>
+    const container=document.querySelector(".container");
+    const sizeEle=document.querySelector('.size');
+    const color=document.querySelector('.color');
+    const resetBtn=document.querySelector('.button');
+    let size=sizeEle.value;
+    let draw=false;
+    function addGrid()
+    {
+        container.style.setProperty("--size",size);
+        for(let i=0;i<size*size;i++)
+    {
+        const div=document.createElement("div");
+        div.classList.add("box");
+        div.addEventListener('mouseenter',()=>onMouseOver(div));
+        div.addEventListener('mousedown',()=>onMouseDown(div));
+        container.appendChild(div);
+    }
+    }
+    addGrid();
+    function onMouseOver(div)
+    {
+if(!draw)
+{
+    return;
+}
+div.style.backgroundColor=color.value;
+    }
+    function onMouseDown(div)
+    {
+        div.style.backgroundColor=color.value;
+    }
+    window.addEventListener('mousedown',function(){
+        draw=true;
+    });
+    window.addEventListener('mouseup',function(){
+        draw=false;
+    });
+    function reset()
+    {
+        container.innerHTML="";
+        addGrid();
+    }
+    resetBtn.addEventListener('click',reset);
+sizeEle.addEventListener('keyup',function(){
+    size=sizeEle.value;
+    reset();
+})
+</script>
+</body>
+</html>
